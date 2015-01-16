@@ -19,7 +19,7 @@ class NoResultsError(Exception):
 
 
 def thesaurus_for_word(word):
-    response = urllib.request.urlopen('https://www.openthesaurus.de/synonyme/search?q={0}&format=application/json'.format(word)).read().decode('UTF-8')
+    response = urllib.request.urlopen('https://www.openthesaurus.de/synonyme/search?q={0}&format=application/json'.format(word.encode('utf-8'))).read().decode('UTF-8')
     json_response = json.loads(response)
     if json_response['synsets']:
         return json_response['synsets'][0]['terms'][0]['term']
