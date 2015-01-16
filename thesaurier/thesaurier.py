@@ -9,9 +9,6 @@ app.config.update(
     SECRET_KEY = 'foobar'
 )
 
-if __name__ == '__main__':
-    app.run()
-
 
 class NoResultsError(Exception):
     def __init__(self, word):
@@ -30,20 +27,23 @@ def thesaurus_for_word(word):
         raise NoResultsError(word)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route("/", methods=["GET", "POST"])
 def convertText():
-    if request.method == 'POST':
+    if request.method == "POST":
         textToConvert = request.form['text']
         words = textToConvert.split(' ')
         result = ""
         no_results = []
         for word in words:
             try:
-                result += thesaurus_for_word(word)
+                result += thesaurus_for_word(word) + " "
             except NoResultsError as nr:
                 # TODO: implement better handling when there are no results
-                result += word
+                result += word + " "
                 no_results.append(word)
         return render_template('result.html', result=result, errors=no_results)
 
     return render_template('input.html')
+
+if __name__ == '__main__':
+    app.run()
