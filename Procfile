@@ -1,1 +1,1 @@
-web: gunicorn --chdir ./thesaurier thesaurier.app
+web: gunicorn --chdir ./thesaurier thesaurier:app
