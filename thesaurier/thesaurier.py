@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, url_for, redirect, flash
-import json, urllib.request
+import json
 from random import randint
+import requests
 
 
 app = Flask(__name__)
@@ -20,7 +21,7 @@ class NoResultsError(Exception):
 
 
 def thesaurus_for_word(word):
-    response = urllib.request.urlopen('https://www.openthesaurus.de/synonyme/search?q={0}&format=application/json'.format(word)).read().decode('UTF-8')
+    response = requests.get('https://www.openthesaurus.de/synonyme/search?q={0}&format=application/json'.format(word)).text
     json_response = json.loads(response)
     if json_response['synsets']:
         random_term = randint(0, len(json_response['synsets'][0]['terms'])-1) 
